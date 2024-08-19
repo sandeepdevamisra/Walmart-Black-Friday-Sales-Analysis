@@ -7,7 +7,7 @@
   - Inventory Updates Stream (product_id, timestamp, quantity_change, store_id)
 - Pre-loaded dimension data:
   - Products (product_id, name, category, price, supplier_id)
-  - Stores (store_id, location, size, manager)
+  - Stores (store_id, location, manager)
 ## Cloud Service
 - AWS
 ## Techstacks
