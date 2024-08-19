@@ -28,7 +28,7 @@
   - `artifacts`/
     - `docker-compose.yml`
     - `redshift-jdbc42-2.1.0.12.jar`
-  - `src`\
+  - `src`/
     - `kafka_producer.py`
     - `spark_redshift_stream_inventory.py`
     - `spark_redshift_stream_sales.py`
