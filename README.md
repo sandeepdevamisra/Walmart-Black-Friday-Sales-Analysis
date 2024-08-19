@@ -38,15 +38,15 @@
 - Create a schema and load these tables in Redshift
   - products
     ```
-    create schema walmart_sales_analysis
-    CREATE TABLE walmart_sales_analysis.products (
+    create schema black_friday_sales
+    CREATE TABLE black_friday_sales.products (
         product_id VARCHAR(100),
         category VARCHAR(100),
         name VARCHAR(200),
         supplier_id VARCHAR(100),
-        price FLOAT4
+        price FLOAT8
     );
-    COPY walmart_sales_analysis.products
+    COPY black_friday_sales.products
     FROM '<enter S3 path to the file' 
     IAM_ROLE 'enter IAM role associated with Redshift'
     DELIMITER ','
@@ -55,17 +55,49 @@
     ```
   - stores
     ```
-    CREATE TABLE walmart_sales_analysis.stores (
+    CREATE TABLE black_friday_sales.stores (
         store_id VARCHAR(100),
         location VARCHAR(100),
         manager VARCHAR(200)
     );
-    COPY walmart_sales_analysis.stores
+    COPY black_friday_sales.stores
     FROM '<enter S3 path to the file' 
     IAM_ROLE 'enter IAM role associated with Redshift'
     DELIMITER ','
     IGNOREHEADER 1
     REGION '<enter region of Redshift>';
     ```
-
+- Create the sales and inventory tables in Redshift
+  - inventory
+    ```
+    CREATE TABLE black_friday_sales.inventory_updates(
+        product_id VARCHAR(100),
+        timestamp_ TIMESTAMP,
+        quantity_change INTEGER,
+        store_id VARCHAR(100)
+    );
+    ```
+  - sales
+    ```
+    CREATE TABLE black_friday_sales.inventory_updates(
+        transaction_id VARCHAR(100),
+        product_id VARCHAR(100),
+        timestamp_ TIMESTAMP,
+        quantity INTEGER,
+        unit_price FLOAT8,
+        store_id VARCHAR(100)
+    );
+    ```
+- Also create 2 S3 temporary directories `inventory_temp` for inventory table and `sales_temp` for sales table.
+## Run instructions 
+- Run the command `docker compose -f docker-compose.yml up -d`. Now the Kafka is up and running.
+- In 2 different terminals, run the streaming scripts `python3 spark_redshift_stream_inventory.py` and `python3 spark_redshift_stream_sales.py`.
+- Once the streaming scripts are up and running, in another terminal, run the producer script `kafka_producer.py`.
+- The data will be ingested in real-time in Redshift. After this, we can perform analysis on the tables as well as connect with Quicksight to visualize.
+## Additional instructions
+- In Redshift, under security group, go to `inbound rule`. The port of Redshift should be exposed to all IP addresses.
+- Spark streaming is running locally, so for connecting it to Redshift, go to `Actions -> Modify Publicly Accessible Setting` and enable `Turn on Publicly accessible` and save changes. However, this is not recommended in a production environment since that can result in a security breach.
+- We will need package for interaction between Kafka and Spark, Spark Redshift conector, and Redshift JDBC connector.
+- We are writing the data in JDBC format and therefore we will need the Redshift JDBC connector as well. Also we will need Redshift driver.
+- Spark version - 3.5 (in reference to the packages). 
 
