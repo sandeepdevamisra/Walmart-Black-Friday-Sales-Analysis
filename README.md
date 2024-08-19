@@ -8,6 +8,8 @@
 - Pre-loaded dimension data:
   - Products (product_id, name, category, price, supplier_id)
   - Stores (store_id, location, manager)
+## Data Model
+<img src="https://github.com/sandeepdevamisra/Walmart-Black-Friday-Sales-Analysis/blob/main/img/data_model.png" alt="architecture" width="80%">
 ## Cloud Service
 - AWS
 ## Techstacks
