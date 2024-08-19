@@ -1,0 +1,11 @@
+product_id,name,category,price,supplier_id
+P501,Laptop,Electronics,75000,S101
+P502,Mobile,Electronics,20000,S101
+P503,T-shirt,Cloth,700,S102
+P504,Jeans,Cloth,800,S102
+P505,Shampoo,Beauty,120,S103
+P506,Textbook,Book,300,S104
+P507,Bottle,Plastic,150,S105
+P508,Kurta,Cloth,500,S102
+P509,Television,Electronics,10000,S101
+P510,Biscuit,Food,50,S106
